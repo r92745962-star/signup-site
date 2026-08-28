@@ -6,193 +6,174 @@
 <title>نظام تقارير أمن الطرق</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+*{box-sizing:border-box}
 
-body {
-    margin: 0;
-    font-family: Tahoma, Arial, sans-serif;
+body{
+    margin:0;
+    min-height:100vh;
+    font-family:Tahoma,Arial,sans-serif;
+    color:#fff;
     background:
-        radial-gradient(circle at 15% 20%, rgba(0, 102, 255, .12), transparent 30%),
-        radial-gradient(circle at 85% 80%, rgba(0, 170, 255, .08), transparent 30%),
-        linear-gradient(135deg, #05080d, #0b111b 55%, #05080d);
-    color: #fff;
-    min-height: 100vh;
+        radial-gradient(circle at 10% 10%,#1263a522,transparent 30%),
+        radial-gradient(circle at 90% 90%,#008cff18,transparent 30%),
+        linear-gradient(135deg,#03070c,#0a111b,#03070c);
 }
 
-.container {
-    width: 94%;
-    max-width: 1500px;
-    margin: auto;
-    padding: 30px 0;
+.container{
+    width:94%;
+    max-width:1500px;
+    margin:auto;
+    padding:30px 0;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
+header{text-align:center;margin-bottom:25px}
+
+header h1{
+    color:#55aeff;
+    margin:0;
+    font-size:34px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 32px;
-    color: #55aaff;
-    text-shadow: 0 0 20px rgba(0, 140, 255, .35);
+header p{color:#8290a3}
+
+.layout{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
 }
 
-header p {
-    color: #8895a7;
-    margin-top: 8px;
+.card{
+    background:#0d1622ee;
+    border:1px solid #20334a;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:18px;
+    box-shadow:0 15px 40px #0006;
 }
 
-.layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
+.card h2{
+    color:#5db4ff;
+    font-size:20px;
+    border-bottom:1px solid #20334a;
+    padding-bottom:12px;
+    margin-top:0;
 }
 
-.card {
-    background: rgba(13, 20, 31, .92);
-    border: 1px solid #1d2b3e;
-    border-radius: 16px;
-    padding: 22px;
-    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
 }
 
-.card h2 {
-    margin-top: 0;
-    color: #5db0ff;
-    font-size: 21px;
-    border-bottom: 1px solid #1e2e42;
-    padding-bottom: 12px;
+label{
+    display:block;
+    color:#aebaca;
+    font-size:13px;
+    margin-bottom:7px;
 }
 
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+input,select{
+    width:100%;
+    padding:12px;
+    border-radius:9px;
+    border:1px solid #293e56;
+    background:#08101a;
+    color:#fff;
+    outline:none;
 }
 
-label {
-    display: block;
-    color: #aab6c5;
-    font-size: 13px;
-    margin-bottom: 7px;
+input:focus,select:focus{
+    border-color:#299aff;
+    box-shadow:0 0 0 2px #299aff22;
 }
 
-input, select, textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 9px;
-    border: 1px solid #27384d;
-    background: #0a111b;
-    color: white;
-    outline: none;
-    font-size: 14px;
-    direction: rtl;
-    text-align: right;
+.person{
+    display:grid;
+    grid-template-columns:1fr 1fr 42px;
+    gap:8px;
+    margin-bottom:12px;
 }
 
-input:focus, select:focus, textarea:focus {
-    border-color: #2698ff;
-    box-shadow: 0 0 0 2px rgba(38,152,255,.12);
+.logout-row{
+    display:grid;
+    grid-template-columns:1fr 42px;
+    gap:8px;
+    margin-bottom:12px;
 }
 
-.person {
-    display: grid;
-    grid-template-columns: 1fr 1fr 42px;
-    gap: 8px;
-    margin-bottom: 9px;
-    align-items: center;
+button{
+    border:0;
+    border-radius:9px;
+    padding:11px 15px;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
 }
 
-button {
-    border: 0;
-    border-radius: 9px;
-    padding: 11px 15px;
-    cursor: pointer;
-    color: white;
-    font-weight: bold;
-    transition: .2s;
+button:hover{
+    transform:translateY(-1px);
+    filter:brightness(1.1);
 }
 
-button:hover {
-    transform: translateY(-1px);
-    filter: brightness(1.1);
+.add{background:#126dcc}
+.delete{background:#a52b38}
+
+.copy{
+    background:#159447;
+    width:100%;
+    font-size:17px;
+    margin-bottom:10px;
 }
 
-.add {
-    background: #126dcc;
-    margin-top: 5px;
+.clear{
+    background:#8e2936;
+    width:100%;
 }
 
-.delete {
-    background: #a82836;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    font-size: 18px;
-    line-height: 1;
+.preview{
+    position:sticky;
+    top:20px;
+    height:max-content;
 }
 
-.copy {
-    background: #159447;
-    width: 100%;
-    font-size: 16px;
-    margin-top: 15px;
+.preview-box{
+    background:#070c12;
+    border:1px solid #263b53;
+    border-radius:12px;
+    padding:20px;
+    min-height:650px;
+    white-space:pre-wrap;
+    direction:rtl;
+    text-align:right;
+    line-height:2;
+    font-family:Tahoma,Arial,sans-serif;
+    overflow:auto;
 }
 
-.clear {
-    background: #8d2935;
-    width: 100%;
-    margin-top: 10px;
+.shared-box{
+    display:flex;
+    gap:10px;
+    margin-bottom:12px;
 }
 
-.preview {
-    position: sticky;
-    top: 20px;
+.shared-box select{
+    flex:1;
 }
 
-.preview-box {
-    background: #080d14;
-    border: 1px solid #26384d;
-    border-radius: 12px;
-    padding: 20px;
-    min-height: 600px;
-    white-space: pre-wrap;
-    direction: rtl;
-    text-align: right;
-    font-family: Tahoma, Arial, sans-serif;
-    line-height: 1.9;
-    color: #f4f7fa;
-    overflow: auto;
+.shared-box button{
+    white-space:nowrap;
 }
 
-.section {
-    margin-top: 25px;
+.hint{
+    color:#66778b;
+    font-size:12px;
+    margin-top:7px;
 }
 
-.small-note {
-    color: #68778a;
-    font-size: 12px;
-    margin-top: 6px;
-}
-
-.logout-row {
-    display: grid;
-    grid-template-columns: 1fr 42px;
-    gap: 8px;
-    margin-bottom: 9px;
-}
-
-@media(max-width: 1000px) {
-    .layout {
-        grid-template-columns: 1fr;
-    }
-
-    .preview {
-        position: static;
-    }
+@media(max-width:1000px){
+    .layout{grid-template-columns:1fr}
+    .preview{position:static}
 }
 </style>
 </head>
@@ -203,95 +184,114 @@ button:hover {
 
 <header>
     <h1>نظام تقارير أمن الطرق</h1>
-    <p>مولّد التقارير — تعبئة وترتيب ونسخ مباشر لديسكورد</p>
+    <p>إنشاء وترتيب التقارير والنسخ المباشر لديسكورد</p>
 </header>
 
 <div class="layout">
 
-<!-- الإدخال -->
+<!-- الجانب الأيسر -->
+
 <div>
 
-<div class="card" role="region" aria-labelledby="report-info-title">
-<h2 id="report-info-title">معلومات التقرير</h2>
+<div class="card">
+<h2>معلومات التقرير</h2>
 
 <div class="form-row">
 
 <div>
-<label for="startTime">وقت البداية</label>
-<input id="startTime" value="10:15 ص" oninput="updatePreview()" dir="rtl" aria-label="وقت البداية">
+<label>وقت البداية</label>
+<input id="startTime" value="02:30 ص" oninput="updatePreview()">
 </div>
 
 <div>
-<label for="endTime">وقت النهاية</label>
-<input id="endTime" value="11:15 ص" oninput="updatePreview()" dir="rtl" aria-label="وقت النهاية">
+<label>وقت النهاية</label>
+<input id="endTime" value="03:00 ص" oninput="updatePreview()">
 </div>
 
 </div>
 
 <br>
 
-<label for="operations">العمليات</label>
-<input id="operations" placeholder="@اسم العمليات" oninput="updatePreview()" dir="auto" aria-label="العمليات">
+<label>العمليات — آيدي ديسكورد</label>
+<input id="operations"
+placeholder="مثال: 1521722054611832887"
+oninput="updatePreview()">
 
-<br><br>
+<div class="hint">
+اكتب آيدي الشخص فقط، وسيتم تحويله تلقائيًا إلى &lt;@ID&gt;
+</div>
 
-<label for="deputy">نائب العمليات</label>
-<input id="deputy" placeholder="@اسم نائب العمليات" oninput="updatePreview()" dir="auto" aria-label="نائب العمليات">
+<br>
+
+<label>نائب العمليات — آيدي ديسكورد</label>
+<input id="deputy"
+placeholder="مثال: 1025155496694513745"
+oninput="updatePreview()">
 
 </div>
 
 
-<!-- الأقسام -->
 <div id="sections"></div>
 
 
 <!-- تسجيل الخروج -->
-<div class="card section" role="region" aria-labelledby="logout-title">
 
-<h2 id="logout-title">تسجيل خروج</h2>
+<div class="card">
+
+<h2>تسجيل خروج</h2>
 
 <div id="logoutList"></div>
 
-<button type="button" class="add" id="addLogoutBtn">+ إضافة تسجيل خروج</button>
+<button class="add" onclick="addLogout()">+ إضافة كود</button>
 
 </div>
 
 
 <!-- السبب -->
-<div class="card section">
+
+<div class="card">
 
 <h2>سبب نزول التقرير مبكرًا</h2>
 
-<select id="reason" onchange="reasonChanged(); updatePreview();" aria-label="سبب النزول المبكر">
+<select id="reason" onchange="reasonChanged();updatePreview()">
 <option value="">بدون سبب</option>
 <option>ريستارت</option>
 <option>ضعف خبرة</option>
 <option>اصطفاف</option>
 <option>صيانة</option>
 <option>اجتماع</option>
+<option>تغيير شفت</option>
+<option>ظروف طارئة</option>
 <option>أخرى</option>
 </select>
 
-<div id="customReason" style="display:none;margin-top:10px;">
-<label for="otherReason">اكتب السبب</label>
-<input id="otherReason" oninput="updatePreview()" placeholder="اكتب السبب هنا" aria-label="سبب آخر">
+<div id="customReason" style="display:none;margin-top:10px">
+<label>السبب</label>
+<input id="otherReason"
+placeholder="اكتب السبب"
+oninput="updatePreview()">
 </div>
 
 </div>
 
+<button class="copy" onclick="copyReport()">
+📋 نسخ التقرير
+</button>
 
-<button type="button" class="copy" id="copyBtn">📋 نسخ التقرير</button>
-<button type="button" class="clear" id="clearBtn">🗑️ مسح التقرير</button>
+<button class="clear" onclick="clearAll()">
+🗑️ مسح التقرير
+</button>
 
 </div>
 
 
 <!-- المعاينة -->
+
 <div class="card preview">
 
 <h2>معاينة التقرير</h2>
 
-<div id="preview" class="preview-box" role="status" aria-live="polite"></div>
+<div id="preview" class="preview-box"></div>
 
 </div>
 
@@ -300,302 +300,537 @@ button:hover {
 
 
 <script>
-/* البيانات الأولية */
-const sectionData = [
-    {
-        title: "الضباط",
-        items: [
-            ["سيف 1",""],
-            ["م سيف 1",""],
-            ["سيف 2",""],
-            ["رصد 1",""],
-            ["رصد 2",""],
-            ["رصد 3",""],
-            ["م رصد 3",""],
-            ["ساهر 1",""],
-            ["ساهر 2",""],
-            ["ساهر 3",""],
-            ["ساهر 4",""],
-            ["أمان 1",""],
-            ["أمان 2",""],
-            ["الشؤون العسكرية",""]
-        ]
-    },
-    {
-        title: "الدورات المفعلة",
-        items: []
-    },
-    {
-        title: "المهام والواجبات الخاصة",
-        items: []
-    },
-    {
-        title: "دعم جوي",
-        items: []
-    },
-    {
-        title: "بيتا",
-        items: [
-            ["بيتا 10",""],
-            ["بيتا 11",""],
-            ["بيتا 12",""],
-            ["م بيتا 12",""]
-        ]
-    },
-    {
-        title: "برافو",
-        items: [
-            ["برافو 10",""],
-            ["برافو 11",""],
-            ["برافو 12",""]
-        ]
-    },
-    {
-        title: "دلتا 1",
-        items: [
-            ["دلتا 10",""],
-            ["م دلتا 10",""],
-            ["دلتا 11",""],
-            ["دلتا 12",""]
-        ]
-    },
-    {
-        title: "دلتا 2",
-        items: [
-            ["دلتا 20",""]
-        ]
-    }
+
+/* =========================
+   القائمة المشتركة للمناصب
+========================= */
+
+const sharedPositions = [
+    "سيف 1",
+    "م سيف 1",
+    "سيف 2",
+    "م سيف 2",
+
+    "رصد 1",
+    "رصد 2",
+    "رصد 3",
+    "م رصد 3",
+
+    "ساهر 1",
+    "ساهر 2",
+    "ساهر 3",
+    "ساهر 4",
+
+    "امان 1",
+    "امان 2",
+    "امان 3",
+
+    "الشرطة العسكرية",
+
+    "شهاب 1",
+    "شهاب 2",
+    "شهاب 3",
+    "شهاب 4",
+    "شهاب 5",
+    "شهاب 6",
+
+    "صقر 1",
+    "صقر 2",
+    "صقر 3",
+    "صقر 4",
+
+    "بيتا 10",
+    "بيتا 11",
+    "بيتا 12",
+    "م بيتا 12",
+    "بيتا 13",
+    "بيتا 14",
+
+    "برافو 10",
+    "برافو 11",
+    "برافو 12",
+    "برافو 13",
+    "برافو 14",
+
+    "دلتا 10",
+    "م دلتا 10",
+    "دلتا 11",
+    "دلتا 12",
+    "دلتا 13",
+    "دلتا 14",
+
+    "دلتا 20"
 ];
 
-/* إنشاء قسم برمجياً لتفادي استخدام innerHTML الكبير */
-function createSection(section, index) {
-    const card = document.createElement("div");
-    card.className = "card section";
 
-    const h = document.createElement("h2");
-    h.textContent = section.title;
-    card.appendChild(h);
+/* =========================
+   الأقسام
+========================= */
 
-    const list = document.createElement("div");
-    list.id = `list-${index}`;
-    card.appendChild(list);
+const sections = [
 
-    const addBtn = document.createElement("button");
-    addBtn.type = "button";
-    addBtn.className = "add";
-    addBtn.textContent = "+ إضافة شخص";
-    addBtn.addEventListener("click", () => addPerson(index));
-    card.appendChild(addBtn);
+{
+    title:"الضباط",
+    defaultItems:[
+        ["سيف 1",""],
+        ["م سيف 1",""],
+        ["سيف 2",""],
+        ["رصد 1",""],
+        ["رصد 2",""],
+        ["رصد 3",""],
+        ["م رصد 3",""],
+        ["ساهر 1",""],
+        ["ساهر 2",""],
+        ["ساهر 4",""],
+        ["امان 1",""],
+        ["امان 2",""],
+        ["الشرطة العسكرية",""]
+    ]
+},
+
+{
+    title:"الدورات المفعلة",
+    defaultItems:[]
+},
+
+{
+    title:"المهام والواجبات الخاصة",
+    defaultItems:[]
+},
+
+{
+    title:"دعم جوي",
+    defaultItems:[]
+},
+
+{
+    title:"بيتا",
+    defaultItems:[
+        ["بيتا 10",""],
+        ["بيتا 11",""],
+        ["بيتا 12",""],
+        ["م بيتا 12",""],
+        ["بيتا 13",""],
+        ["بيتا 14",""]
+    ]
+},
+
+{
+    title:"برافو",
+    defaultItems:[
+        ["برافو 10",""],
+        ["برافو 11",""],
+        ["برافو 12",""],
+        ["برافو 13",""],
+        ["برافو 14",""]
+    ]
+},
+
+{
+    title:"دلتا 1",
+    defaultItems:[
+        ["دلتا 10",""],
+        ["م دلتا 10",""],
+        ["دلتا 11",""],
+        ["دلتا 12",""],
+        ["دلتا 13",""],
+        ["دلتا 14",""]
+    ]
+},
+
+{
+    title:"دلتا 2",
+    defaultItems:[
+        ["دلتا 20",""]
+    ]
+}
+
+];
+
+
+/* =========================
+   إنشاء الأقسام
+========================= */
+
+sections.forEach((section,index)=>{
+
+    const card=document.createElement("div");
+
+    card.className="card";
+
+    card.innerHTML=`
+
+        <h2>${section.title}</h2>
+
+        <div class="shared-box">
+
+            <select id="shared-${index}">
+                <option value="">اختر من المناصب المشتركة</option>
+                ${sharedPositions.map(x=>`<option value="${x}">${x}</option>`).join("")}
+            </select>
+
+            <button class="add"
+                    onclick="addShared(${index})">
+                إضافة
+            </button>
+
+        </div>
+
+        <div id="list-${index}"></div>
+
+        <button class="add"
+                onclick="addPerson(${index})">
+            + إضافة شخص
+        </button>
+
+    `;
 
     document.getElementById("sections").appendChild(card);
 
-    section.items.forEach(item => {
-        addPerson(index, item[0], item[1]);
+    section.defaultItems.forEach(item=>{
+        addPerson(index,item[0],item[1]);
     });
+
+});
+
+
+/* =========================
+   إضافة من القائمة المشتركة
+========================= */
+
+function addShared(index){
+
+    const select=document.getElementById(`shared-${index}`);
+
+    const name=select.value;
+
+    if(!name){
+        alert("اختر منصب أولاً");
+        return;
+    }
+
+    addPerson(index,name,"");
+
+    select.value="";
 }
 
-/* أداة إنشاء صف شخص دون innerHTML */
-function addPerson(sectionIndex, name = "", code = "") {
-    const list = document.getElementById(`list-${sectionIndex}`);
-    if (!list) return;
 
-    const row = document.createElement("div");
-    row.className = "person";
+/* =========================
+   إضافة شخص
+========================= */
 
-    const inputName = document.createElement("input");
-    inputName.className = "person-name";
-    inputName.value = name;
-    inputName.placeholder = "المسمى";
-    inputName.setAttribute("aria-label", `${sectionData[sectionIndex].title} - المسمى`);
-    inputName.dir = "auto";
-    inputName.addEventListener("input", updatePreview);
+function addPerson(index,name="",code=""){
 
-    const inputCode = document.createElement("input");
-    inputCode.className = "person-code";
-    inputCode.value = code;
-    inputCode.placeholder = "الكود مثل P-028";
-    inputCode.setAttribute("aria-label", `${sectionData[sectionIndex].title} - الكود`);
-    inputCode.dir = "ltr";
-    inputCode.addEventListener("input", updatePreview);
+    const list=document.getElementById(`list-${index}`);
 
-    const del = document.createElement("button");
-    del.type = "button";
-    del.className = "delete";
-    del.textContent = "×";
-    del.title = "حذف";
-    del.addEventListener("click", () => {
-        row.remove();
-        updatePreview();
-    });
+    const row=document.createElement("div");
 
-    row.appendChild(inputName);
-    row.appendChild(inputCode);
-    row.appendChild(del);
+    row.className="person";
+
+    row.innerHTML=`
+
+        <input class="person-name"
+               value="${escapeHtml(name)}"
+               placeholder="المسمى"
+               oninput="updatePreview()">
+
+        <input class="person-code"
+               value="${escapeHtml(code)}"
+               placeholder="الكود مثل P-032"
+               oninput="updatePreview()">
+
+        <button class="delete"
+                onclick="
+                    this.parentElement.remove();
+                    updatePreview();
+                ">
+            ×
+        </button>
+
+    `;
 
     list.appendChild(row);
+
     updatePreview();
 }
 
-/* إنشاء صف تسجيل خروج */
-function addLogout(code = "") {
-    const list = document.getElementById("logoutList");
-    const row = document.createElement("div");
-    row.className = "logout-row";
 
-    const input = document.createElement("input");
-    input.className = "logout-code";
-    input.value = code;
-    input.placeholder = "الكود مثل P-289";
-    input.setAttribute("aria-label", "كود تسجيل الخروج");
-    input.dir = "ltr";
-    input.addEventListener("input", updatePreview);
+/* =========================
+   تسجيل الخروج
+========================= */
 
-    const del = document.createElement("button");
-    del.type = "button";
-    del.className = "delete";
-    del.textContent = "×";
-    del.title = "حذف";
-    del.addEventListener("click", () => {
-        row.remove();
-        updatePreview();
-    });
+function addLogout(code=""){
 
-    row.appendChild(input);
-    row.appendChild(del);
+    const list=document.getElementById("logoutList");
+
+    const row=document.createElement("div");
+
+    row.className="logout-row";
+
+    row.innerHTML=`
+
+        <input class="logout-code"
+               value="${escapeHtml(code)}"
+               placeholder="مثال P-277"
+               oninput="updatePreview()">
+
+        <button class="delete"
+                onclick="
+                    this.parentElement.remove();
+                    updatePreview();
+                ">
+            ×
+        </button>
+
+    `;
 
     list.appendChild(row);
+
     updatePreview();
 }
 
-function reasonChanged() {
-    const value = document.getElementById("reason").value;
+
+/* =========================
+   السبب
+========================= */
+
+function reasonChanged(){
+
+    const value=document.getElementById("reason").value;
+
     document.getElementById("customReason").style.display =
-        value === "أخرى" ? "block" : "none";
+        value==="أخرى" ? "block" : "none";
 }
 
-/* تنقية المسافات المتكررة */
-function normalizeLine(s) {
-    return s.replace(/\s+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+
+/* =========================
+   منشن ديسكورد
+========================= */
+
+function discordMention(id){
+
+    id=id.trim();
+
+    if(!id) return "";
+
+    if(id.startsWith("<@")){
+        return id;
+    }
+
+    return `<@${id}>`;
 }
 
-/* بناء النص النهائي */
-function updatePreview() {
-    let text = "";
 
-    const start = document.getElementById("startTime").value.trim();
-    const end = document.getElementById("endTime").value.trim();
+/* =========================
+   إنشاء التقرير
+========================= */
 
-    const operations = document.getElementById("operations").value.trim();
-    const deputy = document.getElementById("deputy").value.trim();
+function updatePreview(){
 
-    text += `تم استلام مهام العمليات لأمن الطرق في تمام الساعة ${start || 'غير محدد'} الى ${end || 'غير محدد'}\n\n`;
-    text += `تقرير\n\n`;
-    text += `الــعمــلـيـات | ${operations || "لا يوجد"}\n\n`;
-    text += `نــائـــب الــعمــلـيـات | ${deputy || "لا يوجد"}\n\n`;
-    text += `—————————————————\n\n`;
+    let text="";
 
-    sectionData.forEach((section, index) => {
-        const list = document.getElementById(`list-${index}`);
-        if (!list) return;
+    const start=document.getElementById("startTime").value.trim();
 
-        const people = Array.from(list.querySelectorAll(".person"));
-        if (people.length === 0) {
-            if (["الدورات المفعلة", "المهام والواجبات الخاصة", "دعم جوي"].includes(section.title)) {
-                text += `${section.title} :\n\n`;
-            }
+    const end=document.getElementById("endTime").value.trim();
+
+    const operations=discordMention(
+        document.getElementById("operations").value
+    );
+
+    const deputy=discordMention(
+        document.getElementById("deputy").value
+    );
+
+
+    text+=`تم استلام مهام العمليات لأمن الطرق في تمام الساعة ${start} الى ${end}\n\n`;
+
+    text+=`تقرير\n\n`;
+
+    text+=`الــعمــلـيـات | ${operations || "لا يوجد"}\n\n`;
+
+    text+=`نــائـــب الــعمــلـيـات | ${deputy || "لا يوجد"}\n\n`;
+
+    text+=`—————————————————\n\n`;
+
+
+    sections.forEach((section,index)=>{
+
+        const list=document.getElementById(`list-${index}`);
+
+        const people=[...list.querySelectorAll(".person")];
+
+        const valid=people.filter(person=>{
+
+            const name=person.querySelector(".person-name").value.trim();
+
+            const code=person.querySelector(".person-code").value.trim();
+
+            return name || code;
+
+        });
+
+
+        if(section.title==="الضباط"){
+
+            valid.forEach(person=>{
+
+                const name=person.querySelector(".person-name").value.trim();
+
+                const code=person.querySelector(".person-code").value.trim();
+
+                text+=`${name} | ${code}\n\n`;
+
+            });
+
             return;
         }
 
-        if (section.title !== "الضباط") {
-            text += `${section.title} :\n\n`;
+
+        if(section.title==="الدورات المفعلة"){
+
+            text+=`الدورات المفعلة :\n\n`;
+
+        }
+        else{
+
+            text+=`${section.title} :\n\n`;
+
         }
 
-        people.forEach(person => {
-            const name = person.querySelector(".person-name").value.trim();
-            const code = person.querySelector(".person-code").value.trim();
-            if (name || code) {
-                text += `${name || '-'} | ${code || '-'}\n\n`;
-            }
+
+        valid.forEach(person=>{
+
+            const name=person.querySelector(".person-name").value.trim();
+
+            const code=person.querySelector(".person-code").value.trim();
+
+            text+=`${name} | ${code}\n\n`;
+
         });
 
-        text += `—————————————————\n\n`;
+
+        text+=`—————————————————\n\n`;
+
     });
 
-    text += `تسجيل خروج :\n\n`;
-    const logoutCodes = Array.from(document.querySelectorAll(".logout-code"));
-    logoutCodes.forEach(input => {
-        const code = input.value.trim();
-        if (code) {
-            text += `${code}\n`;
+
+    text+=`تسجيل خروج :\n\n`;
+
+
+    const logout=[
+        ...document.querySelectorAll(".logout-code")
+    ];
+
+
+    logout.forEach(input=>{
+
+        const code=input.value.trim();
+
+        if(code){
+
+            text+=`${code}\n`;
+
         }
+
     });
 
-    const reason = document.getElementById("reason").value;
-    let finalReason = reason;
-    if (reason === "أخرى") {
-        finalReason = document.getElementById("otherReason").value.trim();
-    }
-    if (finalReason) {
-        text += `\nسبب نزول التقرير مبكرا : ${finalReason}`;
+
+    const reason=document.getElementById("reason").value;
+
+    let finalReason=reason;
+
+
+    if(reason==="أخرى"){
+
+        finalReason=
+            document.getElementById("otherReason").value.trim();
+
     }
 
-    document.getElementById("preview").textContent = normalizeLine(text);
+
+    if(finalReason){
+
+        text+=`\nسبب نزول التقرير مبكرا : ${finalReason}`;
+
+    }
+
+
+    document.getElementById("preview").textContent=
+        text.trim();
+
 }
 
-/* نسخ إلى الحافظة مع fallback */
-async function copyReport() {
-    const text = document.getElementById("preview").textContent;
-    try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(text);
-        } else {
-            throw new Error("clipboard api unavailable");
-        }
+
+/* =========================
+   نسخ التقرير
+========================= */
+
+async function copyReport(){
+
+    const text=
+        document.getElementById("preview").textContent;
+
+    try{
+
+        await navigator.clipboard.writeText(text);
+
         alert("تم نسخ التقرير بنجاح ✅");
-    } catch {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-9999px";
+
+    }
+    catch(e){
+
+        const textarea=document.createElement("textarea");
+
+        textarea.value=text;
+
         document.body.appendChild(textarea);
+
         textarea.select();
-        try { document.execCommand("copy"); } catch(e) {}
+
+        document.execCommand("copy");
+
         textarea.remove();
+
         alert("تم نسخ التقرير بنجاح ✅");
+
     }
+
 }
 
-/* مسح الحالة بدون إعادة تحميل الصفحة */
-function clearAll() {
-    if (!confirm("هل أنت متأكد من مسح التقرير كاملًا؟")) return;
 
-    document.getElementById("startTime").value = "";
-    document.getElementById("endTime").value = "";
-    document.getElementById("operations").value = "";
-    document.getElementById("deputy").value = "";
-    document.getElementById("reason").value = "";
-    document.getElementById("otherReason").value = "";
-    document.getElementById("customReason").style.display = "none";
+/* =========================
+   مسح
+========================= */
 
-    // إزالة القوائم الديناميكية:
-    document.getElementById("sections").innerHTML = "";
-    document.getElementById("logoutList").innerHTML = "";
+function clearAll(){
 
-    // إعادة إنشاء الأقسام والأعداد الافتراضية
-    sectionData.forEach((section, index) => createSection(section, index));
-    addLogout();
-    updatePreview();
+    if(confirm("هل تريد مسح التقرير بالكامل؟")){
+
+        location.reload();
+
+    }
+
 }
 
-/* ربط أزرار ثابتة */
-document.getElementById("copyBtn").addEventListener("click", copyReport);
-document.getElementById("clearBtn").addEventListener("click", clearAll);
-document.getElementById("addLogoutBtn").addEventListener("click", () => addLogout());
 
-/* إنشاء الأقسام وتهيئة الحالة */
-sectionData.forEach((section, index) => createSection(section, index));
+/* =========================
+   حماية النص
+========================= */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
 
 /* تسجيل خروج افتراضي */
+
 addLogout();
 
 updatePreview();
