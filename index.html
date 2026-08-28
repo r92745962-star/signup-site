@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام تقارير أمن الطرق</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Tahoma, Arial, sans-serif;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0, 102, 255, .12), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(0, 170, 255, .08), transparent 30%),
+        linear-gradient(135deg, #05080d, #0b111b 55%, #05080d);
+    color: #fff;
+    min-height: 100vh;
+}
+
+.container {
+    width: 94%;
+    max-width: 1500px;
+    margin: auto;
+    padding: 30px 0;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #55aaff;
+    text-shadow: 0 0 20px rgba(0, 140, 255, .35);
+}
+
+header p {
+    color: #8895a7;
+    margin-top: 8px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+}
+
+.card {
+    background: rgba(13, 20, 31, .92);
+    border: 1px solid #1d2b3e;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.25);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #5db0ff;
+    font-size: 21px;
+    border-bottom: 1px solid #1e2e42;
+    padding-bottom: 12px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+label {
+    display: block;
+    color: #aab6c5;
+    font-size: 13px;
+    margin-bottom: 7px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 9px;
+    border: 1px solid #27384d;
+    background: #0a111b;
+    color: white;
+    outline: none;
+    font-size: 14px;
+    direction: rtl;
+    text-align: right;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #2698ff;
+    box-shadow: 0 0 0 2px rgba(38,152,255,.12);
+}
+
+.person {
+    display: grid;
+    grid-template-columns: 1fr 1fr 42px;
+    gap: 8px;
+    margin-bottom: 9px;
+    align-items: center;
+}
+
+button {
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 15px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: .2s;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+}
+
+.add {
+    background: #126dcc;
+    margin-top: 5px;
+}
+
+.delete {
+    background: #a82836;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.copy {
+    background: #159447;
+    width: 100%;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.clear {
+    background: #8d2935;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.preview {
+    position: sticky;
+    top: 20px;
+}
+
+.preview-box {
+    background: #080d14;
+    border: 1px solid #26384d;
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 600px;
+    white-space: pre-wrap;
+    direction: rtl;
+    text-align: right;
+    font-family: Tahoma, Arial, sans-serif;
+    line-height: 1.9;
+    color: #f4f7fa;
+    overflow: auto;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+.small-note {
+    color: #68778a;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.logout-row {
+    display: grid;
+    grid-template-columns: 1fr 42px;
+    gap: 8px;
+    margin-bottom: 9px;
+}
+
+@media(max-width: 1000px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .preview {
+        position: static;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+    <h1>نظام تقارير أمن الطرق</h1>
+    <p>مولّد التقارير — تعبئة وترتيب ونسخ مباشر لديسكورد</p>
+</header>
+
+<div class="layout">
+
+<!-- الإدخال -->
+<div>
+
+<div class="card" role="region" aria-labelledby="report-info-title">
+<h2 id="report-info-title">معلومات التقرير</h2>
+
+<div class="form-row">
+
+<div>
+<label for="startTime">وقت البداية</label>
+<input id="startTime" value="10:15 ص" oninput="updatePreview()" dir="rtl" aria-label="وقت البداية">
+</div>
+
+<div>
+<label for="endTime">وقت النهاية</label>
+<input id="endTime" value="11:15 ص" oninput="updatePreview()" dir="rtl" aria-label="وقت النهاية">
+</div>
+
+</div>
+
+<br>
+
+<label for="operations">العمليات</label>
+<input id="operations" placeholder="@اسم العمليات" oninput="updatePreview()" dir="auto" aria-label="العمليات">
+
+<br><br>
+
+<label for="deputy">نائب العمليات</label>
+<input id="deputy" placeholder="@اسم نائب العمليات" oninput="updatePreview()" dir="auto" aria-label="نائب العمليات">
+
+</div>
+
+
+<!-- الأقسام -->
+<div id="sections"></div>
+
+
+<!-- تسجيل الخروج -->
+<div class="card section" role="region" aria-labelledby="logout-title">
+
+<h2 id="logout-title">تسجيل خروج</h2>
+
+<div id="logoutList"></div>
+
+<button type="button" class="add" id="addLogoutBtn">+ إضافة تسجيل خروج</button>
+
+</div>
+
+
+<!-- السبب -->
+<div class="card section">
+
+<h2>سبب نزول التقرير مبكرًا</h2>
+
+<select id="reason" onchange="reasonChanged(); updatePreview();" aria-label="سبب النزول المبكر">
+<option value="">بدون سبب</option>
+<option>ريستارت</option>
+<option>ضعف خبرة</option>
+<option>اصطفاف</option>
+<option>صيانة</option>
+<option>اجتماع</option>
+<option>أخرى</option>
+</select>
+
+<div id="customReason" style="display:none;margin-top:10px;">
+<label for="otherReason">اكتب السبب</label>
+<input id="otherReason" oninput="updatePreview()" placeholder="اكتب السبب هنا" aria-label="سبب آخر">
+</div>
+
+</div>
+
+
+<button type="button" class="copy" id="copyBtn">📋 نسخ التقرير</button>
+<button type="button" class="clear" id="clearBtn">🗑️ مسح التقرير</button>
+
+</div>
+
+
+<!-- المعاينة -->
+<div class="card preview">
+
+<h2>معاينة التقرير</h2>
+
+<div id="preview" class="preview-box" role="status" aria-live="polite"></div>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+/* البيانات الأولية */
+const sectionData = [
+    {
+        title: "الضباط",
+        items: [
+            ["سيف 1",""],
+            ["م سيف 1",""],
+            ["سيف 2",""],
+            ["رصد 1",""],
+            ["رصد 2",""],
+            ["رصد 3",""],
+            ["م رصد 3",""],
+            ["ساهر 1",""],
+            ["ساهر 2",""],
+            ["ساهر 3",""],
+            ["ساهر 4",""],
+            ["أمان 1",""],
+            ["أمان 2",""],
+            ["الشؤون العسكرية",""]
+        ]
+    },
+    {
+        title: "الدورات المفعلة",
+        items: []
+    },
+    {
+        title: "المهام والواجبات الخاصة",
+        items: []
+    },
+    {
+        title: "دعم جوي",
+        items: []
+    },
+    {
+        title: "بيتا",
+        items: [
+            ["بيتا 10",""],
+            ["بيتا 11",""],
+            ["بيتا 12",""],
+            ["م بيتا 12",""]
+        ]
+    },
+    {
+        title: "برافو",
+        items: [
+            ["برافو 10",""],
+            ["برافو 11",""],
+            ["برافو 12",""]
+        ]
+    },
+    {
+        title: "دلتا 1",
+        items: [
+            ["دلتا 10",""],
+            ["م دلتا 10",""],
+            ["دلتا 11",""],
+            ["دلتا 12",""]
+        ]
+    },
+    {
+        title: "دلتا 2",
+        items: [
+            ["دلتا 20",""]
+        ]
+    }
+];
+
+/* إنشاء قسم برمجياً لتفادي استخدام innerHTML الكبير */
+function createSection(section, index) {
+    const card = document.createElement("div");
+    card.className = "card section";
+
+    const h = document.createElement("h2");
+    h.textContent = section.title;
+    card.appendChild(h);
+
+    const list = document.createElement("div");
+    list.id = `list-${index}`;
+    card.appendChild(list);
+
+    const addBtn = document.createElement("button");
+    addBtn.type = "button";
+    addBtn.className = "add";
+    addBtn.textContent = "+ إضافة شخص";
+    addBtn.addEventListener("click", () => addPerson(index));
+    card.appendChild(addBtn);
+
+    document.getElementById("sections").appendChild(card);
+
+    section.items.forEach(item => {
+        addPerson(index, item[0], item[1]);
+    });
+}
+
+/* أداة إنشاء صف شخص دون innerHTML */
+function addPerson(sectionIndex, name = "", code = "") {
+    const list = document.getElementById(`list-${sectionIndex}`);
+    if (!list) return;
+
+    const row = document.createElement("div");
+    row.className = "person";
+
+    const inputName = document.createElement("input");
+    inputName.className = "person-name";
+    inputName.value = name;
+    inputName.placeholder = "المسمى";
+    inputName.setAttribute("aria-label", `${sectionData[sectionIndex].title} - المسمى`);
+    inputName.dir = "auto";
+    inputName.addEventListener("input", updatePreview);
+
+    const inputCode = document.createElement("input");
+    inputCode.className = "person-code";
+    inputCode.value = code;
+    inputCode.placeholder = "الكود مثل P-028";
+    inputCode.setAttribute("aria-label", `${sectionData[sectionIndex].title} - الكود`);
+    inputCode.dir = "ltr";
+    inputCode.addEventListener("input", updatePreview);
+
+    const del = document.createElement("button");
+    del.type = "button";
+    del.className = "delete";
+    del.textContent = "×";
+    del.title = "حذف";
+    del.addEventListener("click", () => {
+        row.remove();
+        updatePreview();
+    });
+
+    row.appendChild(inputName);
+    row.appendChild(inputCode);
+    row.appendChild(del);
+
+    list.appendChild(row);
+    updatePreview();
+}
+
+/* إنشاء صف تسجيل خروج */
+function addLogout(code = "") {
+    const list = document.getElementById("logoutList");
+    const row = document.createElement("div");
+    row.className = "logout-row";
+
+    const input = document.createElement("input");
+    input.className = "logout-code";
+    input.value = code;
+    input.placeholder = "الكود مثل P-289";
+    input.setAttribute("aria-label", "كود تسجيل الخروج");
+    input.dir = "ltr";
+    input.addEventListener("input", updatePreview);
+
+    const del = document.createElement("button");
+    del.type = "button";
+    del.className = "delete";
+    del.textContent = "×";
+    del.title = "حذف";
+    del.addEventListener("click", () => {
+        row.remove();
+        updatePreview();
+    });
+
+    row.appendChild(input);
+    row.appendChild(del);
+
+    list.appendChild(row);
+    updatePreview();
+}
+
+function reasonChanged() {
+    const value = document.getElementById("reason").value;
+    document.getElementById("customReason").style.display =
+        value === "أخرى" ? "block" : "none";
+}
+
+/* تنقية المسافات المتكررة */
+function normalizeLine(s) {
+    return s.replace(/\s+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+/* بناء النص النهائي */
+function updatePreview() {
+    let text = "";
+
+    const start = document.getElementById("startTime").value.trim();
+    const end = document.getElementById("endTime").value.trim();
+
+    const operations = document.getElementById("operations").value.trim();
+    const deputy = document.getElementById("deputy").value.trim();
+
+    text += `تم استلام مهام العمليات لأمن الطرق في تمام الساعة ${start || 'غير محدد'} الى ${end || 'غير محدد'}\n\n`;
+    text += `تقرير\n\n`;
+    text += `الــعمــلـيـات | ${operations || "لا يوجد"}\n\n`;
+    text += `نــائـــب الــعمــلـيـات | ${deputy || "لا يوجد"}\n\n`;
+    text += `—————————————————\n\n`;
+
+    sectionData.forEach((section, index) => {
+        const list = document.getElementById(`list-${index}`);
+        if (!list) return;
+
+        const people = Array.from(list.querySelectorAll(".person"));
+        if (people.length === 0) {
+            if (["الدورات المفعلة", "المهام والواجبات الخاصة", "دعم جوي"].includes(section.title)) {
+                text += `${section.title} :\n\n`;
+            }
+            return;
+        }
+
+        if (section.title !== "الضباط") {
+            text += `${section.title} :\n\n`;
+        }
+
+        people.forEach(person => {
+            const name = person.querySelector(".person-name").value.trim();
+            const code = person.querySelector(".person-code").value.trim();
+            if (name || code) {
+                text += `${name || '-'} | ${code || '-'}\n\n`;
+            }
+        });
+
+        text += `—————————————————\n\n`;
+    });
+
+    text += `تسجيل خروج :\n\n`;
+    const logoutCodes = Array.from(document.querySelectorAll(".logout-code"));
+    logoutCodes.forEach(input => {
+        const code = input.value.trim();
+        if (code) {
+            text += `${code}\n`;
+        }
+    });
+
+    const reason = document.getElementById("reason").value;
+    let finalReason = reason;
+    if (reason === "أخرى") {
+        finalReason = document.getElementById("otherReason").value.trim();
+    }
+    if (finalReason) {
+        text += `\nسبب نزول التقرير مبكرا : ${finalReason}`;
+    }
+
+    document.getElementById("preview").textContent = normalizeLine(text);
+}
+
+/* نسخ إلى الحافظة مع fallback */
+async function copyReport() {
+    const text = document.getElementById("preview").textContent;
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(text);
+        } else {
+            throw new Error("clipboard api unavailable");
+        }
+        alert("تم نسخ التقرير بنجاح ✅");
+    } catch {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try { document.execCommand("copy"); } catch(e) {}
+        textarea.remove();
+        alert("تم نسخ التقرير بنجاح ✅");
+    }
+}
+
+/* مسح الحالة بدون إعادة تحميل الصفحة */
+function clearAll() {
+    if (!confirm("هل أنت متأكد من مسح التقرير كاملًا؟")) return;
+
+    document.getElementById("startTime").value = "";
+    document.getElementById("endTime").value = "";
+    document.getElementById("operations").value = "";
+    document.getElementById("deputy").value = "";
+    document.getElementById("reason").value = "";
+    document.getElementById("otherReason").value = "";
+    document.getElementById("customReason").style.display = "none";
+
+    // إزالة القوائم الديناميكية:
+    document.getElementById("sections").innerHTML = "";
+    document.getElementById("logoutList").innerHTML = "";
+
+    // إعادة إنشاء الأقسام والأعداد الافتراضية
+    sectionData.forEach((section, index) => createSection(section, index));
+    addLogout();
+    updatePreview();
+}
+
+/* ربط أزرار ثابتة */
+document.getElementById("copyBtn").addEventListener("click", copyReport);
+document.getElementById("clearBtn").addEventListener("click", clearAll);
+document.getElementById("addLogoutBtn").addEventListener("click", () => addLogout());
+
+/* إنشاء الأقسام وتهيئة الحالة */
+sectionData.forEach((section, index) => createSection(section, index));
+
+/* تسجيل خروج افتراضي */
+addLogout();
+
+updatePreview();
+
+</script>
+
+</body>
+</html>
